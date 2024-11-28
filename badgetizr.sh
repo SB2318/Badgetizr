@@ -115,6 +115,19 @@ if [ "$ticket_badge_enabled" = "true" ]; then
     fi
 fi
 
+# CI Badge Color
+export CI_STATUS="${CI_STATUS:-pending}"
+
+if [ "$CI_STATUS" == "pending" ]; then
+  export CI_STATUS_COLOR="yellow"
+elif [ "$CI_STATUS" == "success" ]; then
+  export CI_STATUS_COLOR="green"
+else
+  export CI_STATUS_COLOR="red"
+fi
+
+echo "CI Status: $CI_STATUS, Badge Color: $CI_STATUS_COLOR"
+
 # CI Badge
 if [ "$ci_badge_enabled" = "true" ]; then
     if [[ -z "$BADGETIZR_BUILD_NUMBER" ]]; then
@@ -131,18 +144,11 @@ if [ "$ci_badge_enabled" = "true" ]; then
     #Evaluation of the env var defined in the yaml config file
     yq eval '.badge_ci.settings.build_number = env(BADGETIZR_BUILD_NUMBER) | .badge_ci.settings.build_url = env(BADGETIZR_BUILD_URL)' "$config_file" >/dev/null
 
-    ci_badge="[![Static Badge](https://img.shields.io/badge/$ci_badge_label-$ci_badge_build_number-purple?logo=$ci_badge_logo&logoColor=white&labelColor=$ci_badge_color&color=green)]($ci_badge_build_url)"
+    ci_badge="[![Static Badge](https://img.shields.io/badge/$ci_badge_label-$ci_badge_build_number-$CI_STATUS_COLOR?logo=$ci_badge_logo&logoColor=white&labelColor=$ci_badge_color)]($ci_badge_build_url)"
     all_badges=$(echo $all_badges $ci_badge)
 fi
 
-# CI Badge Color
-if [ "$CI_STATUS" == "pending" ]; then
-  export CI_STATUS_COLOR="yellow"
-elif [ "$CI_STATUS" == "success" ]; then
-  export CI_STATUS_COLOR="green"
-else
-  export CI_STATUS_COLOR="red"
-fi
+
 
 # Target Branch Badge 
 if [ "$branch_badge_enabled" = "true" ]; then
