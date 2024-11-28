@@ -1,0 +1,26 @@
+name: Test Badge Generation
+
+on:
+  pull_request:
+    branches:
+      - develop  # Trigger this workflow on PRs to the main branch
+
+jobs:
+  test_badges:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up environment variables
+        run: |
+          echo "CI_STATUS=success" >> $GITHUB_ENV
+          echo "BADGETIZR_BUILD_NUMBER=12345" >> $GITHUB_ENV
+          echo "BADGETIZR_BUILD_URL=https://example.com/build/12345" >> $GITHUB_ENV
+          echo "BITRISE_PULL_REQUEST=12345" >> $GITHUB_ENV
+          echo "BADGETIZR_PR_DESTINATION_BRANCH=main" >> $GITHUB_ENV
+
+      - name: Run badge generation script
+        run: |
+          chmod +x ./badgetizr.sh
+          ./badgetizr.sh
