@@ -135,6 +135,15 @@ if [ "$ci_badge_enabled" = "true" ]; then
     all_badges=$(echo $all_badges $ci_badge)
 fi
 
+# CI Badge Color
+if [ "$CI_STATUS" == "pending" ]; then
+  export CI_STATUS_COLOR="yellow"
+elif [ "$CI_STATUS" == "success" ]; then
+  export CI_STATUS_COLOR="green"
+else
+  export CI_STATUS_COLOR="red"
+fi
+
 # Target Branch Badge 
 if [ "$branch_badge_enabled" = "true" ]; then
     if [[ -z "$BADGETIZR_PR_DESTINATION_BRANCH" ]]; then
