@@ -3,7 +3,7 @@ name: Test Badge Generation
 on:
   pull_request:
     branches:
-      - develop  # Trigger this workflow on PRs to the main branch
+      - develop  
 
 jobs:
   test_badges:
