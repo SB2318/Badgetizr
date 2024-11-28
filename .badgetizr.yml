@@ -1,7 +1,7 @@
 badge_ci:
   enabled: true
   settings:
-    color: "purple"
+    color: "${CI_STATUS_COLOR}"
     label: "Bitrise"
     logo: "bitrise"
     build_number: "${BADGETIZR_BUILD_NUMBER}"
@@ -45,3 +45,12 @@ badge_dynamic:
         label: "Task 2"
         value: "Done"
         color: "darkgreen"
+
+badge_ci_status:
+  options:
+    - status: "pending"
+      color: "yellow"
+    - status: "success"
+      color: "green"
+    - status: "failed"
+      color: "red"
